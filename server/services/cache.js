@@ -7,12 +7,18 @@ const redis = require('redis');
 const util = require('util');
 const keys = require('../config/keys');
 
-const client = redis.createClient(keys.redisUrl);
+const client = redis.createClient({
+  host: keys.redisHost,
+  port: keys.redisPort,
+  retry_strategy: () => 1000
+});
 
 // use promises instead of callbacks for redis client
 client.hget = util.promisify(client.hget);
 
-const { exec } = mongoose.Query.prototype;
+const {
+  exec
+} = mongoose.Query.prototype;
 
 // Add caching method to mongoose prototype
 mongoose.Query.prototype.cache = function (options = {}) {
@@ -46,9 +52,9 @@ mongoose.Query.prototype.exec = async function () {
     // note, we need to handle the case of an array (list of blog entries)
     const doc = JSON.parse(cacheValue);
 
-    return Array.isArray(doc)
-      ? doc.map(d => new this.model(d))
-      : new this.model(doc);
+    return Array.isArray(doc) ?
+      doc.map(d => new this.model(d)) :
+      new this.model(doc);
   }
   // otherwise issue the query on mongodb and store result in redis
   const result = await exec.apply(this, arguments);

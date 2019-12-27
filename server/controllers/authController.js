@@ -1,5 +1,7 @@
 const router = require('express').Router();
-const { authService } = require('../services');
+const {
+  authService
+} = require('../services');
 
 router.get('/auth/google', authService.authGoogle());
 

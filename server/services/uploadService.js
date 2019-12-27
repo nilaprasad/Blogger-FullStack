@@ -23,14 +23,16 @@ class UploadService {
   uploadS3(req, res) {
     const key = `${req.user.id}/${uuid()}.jpeg`;
     s3.getSignedUrl(
-      'putObject',
-      {
+      'putObject', {
         Bucket: 'futureblog-bucket',
         ContentType: 'image/jpeg',
         Key: key,
       },
       (err, url) => {
-        res.send({ key, url });
+        res.send({
+          key,
+          url
+        });
       },
     );
   }

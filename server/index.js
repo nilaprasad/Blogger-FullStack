@@ -15,7 +15,9 @@ const {
 // todo separate database connection into app / server so we can require app in our tests without instantiating a production database
 // at the same time... that or we continue using keys
 mongoose.Promise = global.Promise;
-mongoose.connect(keys.mongoURI, { useMongoClient: true });
+mongoose.connect(keys.mongoURI, {
+  useMongoClient: true
+});
 
 const app = express();
 /**
