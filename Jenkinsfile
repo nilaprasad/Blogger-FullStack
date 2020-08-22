@@ -15,13 +15,13 @@ pipeline {
         stage('Test Client') {
             steps {
                 dir('./client/')
-                sh 'npm  run start'
+                sh 'npm start'
             }
         }
         stage('Test') {
             steps {
               dir('./server')
-                sh 'npm  run start'
+                sh 'npm dev'
             }
         }
   }
