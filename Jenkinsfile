@@ -1,4 +1,10 @@
 pipeline {
+  environment {
+    dockerClientRegistry = "acdnilaprasad/blogger-frontend-dev"
+    dockerServerRegistry = "acdnilaprasad/blogger-backend-dev"
+    dockerRegistryCredential = 'dockerhub'
+    dockerImage = ''
+  }
     agent any
     tools {nodejs "node"}
     stages {
@@ -15,11 +21,34 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
+        stage('Test Server') {
             steps {
                 dir('server') {
                   sh 'npm install'
-                  sh 'npm dev'
+                  sh 'npm test'
+                }
+            }
+        }
+        stage('Build Client Image') {
+            steps {
+                dir('client') {
+                  script {
+                    dockerImage = docker.build dockerClientRegistry
+                    docker.withRegistry ('', dockerRegistryCredential) {
+                      dockerImage.push()
+                    }
+                  }
+                }
+            }
+        }
+        stage('Build Server Image') {
+            steps {
+                dir('server') {
+                  script {
+                    dockerImage = docker.build dockerServerRegistry
+                    docker.withRegistry ('', dockerRegistryCredential) {
+                      dockerImage.push()
+                  }
                 }
             }
         }
