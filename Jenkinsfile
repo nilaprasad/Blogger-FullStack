@@ -7,15 +7,11 @@ pipeline {
                 git 'https://github.com/nilaprasad/Blogger-FullStack.git'
             }
         }
-        stage('Install') {
-            steps {
-                sh 'npm install'
-            }
-        }
         stage('Test Client') {
             steps {
                 sh 'pwd'
                 dir('client')
+                sh 'npm install'
                 sh 'npm start'
             }
         }
@@ -23,6 +19,7 @@ pipeline {
             steps {
                 sh 'pwd'
                 dir('server')
+                sh 'npm install'
                 sh 'npm dev'
             }
         }
