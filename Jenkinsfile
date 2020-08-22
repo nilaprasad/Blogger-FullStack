@@ -9,18 +9,18 @@ pipeline {
         }
         stage('Test Client') {
             steps {
-                sh 'pwd'
-                dir('client')
-                sh 'npm install'
-                sh 'npm start'
+                dir('client') {
+                  sh 'npm install'
+                  sh 'npm start'
+                }
             }
         }
         stage('Test') {
             steps {
-                sh 'pwd'
-                dir('server')
-                sh 'npm install'
-                sh 'npm dev'
+                dir('server') {
+                  sh 'npm install'
+                  sh 'npm dev'
+                }
             }
         }
   }
