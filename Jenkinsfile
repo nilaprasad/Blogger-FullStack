@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git ‘https://github.com/nilaprasad/Blogger-FullStack’
+        git "https://github.com/nilaprasad/Blogger-FullStack"
       }
     }
     stage('Install Packages') {
