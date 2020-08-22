@@ -14,13 +14,15 @@ pipeline {
         }
         stage('Test Client') {
             steps {
-                dir('var/lib/jenkins/workspace/blogger/client/')
+                sh 'pwd'
+                dir('client')
                 sh 'npm start'
             }
         }
         stage('Test') {
             steps {
-              dir('var/lib/jenkins/workspace/blogger/server/')
+                sh 'pwd'
+                dir('server')
                 sh 'npm dev'
             }
         }
